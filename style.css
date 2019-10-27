@@ -1,0 +1,35 @@
+html {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.calc-title {
+  text-align: center;
+  font-size: 3rem;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  width: 100vw;
+  height: 100vh;
+}
+
+.calc-body {
+  width: 25%;
+  height: 50%;
+  padding-top: 6%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  margin: 0;
+}
+
+.display-input {
+  grid-column: 2 / span 4;
+  grid-row: 1 / span 2;
+  font-size: 3rem;
+}
