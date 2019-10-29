@@ -16,26 +16,42 @@
     </header>
     <main>
       <div class="calc-body">
-        <button>CE</button>
+        <input
+          class="display-input"
+          type="text"
+          name="display-screen"
+          data-action="input"
+          value="0"
+        />
+        <button data-action="percentage">%</button
+        ><button data-action="square">Sq Rt</button
+        ><button data-action="power">Xn</button
+        ><button data-action="divide">÷</button
+        ><button data-action="delete">del</button>
 
-        <button>C</button
-        ><input class="display-input" type="text" name="display-screen" />
+        <button class="digit-btn">7</button><button class="digit-btn">8</button
+        ><button class="digit-btn">9</button
+        ><button data-action="multiply">x</button
+        ><button data-action="memory-sub">M-</button>
 
-        <button>%</button><button>Sq Rt</button><button>Xn</button
-        ><button>÷</button><button>del</button>
+        <button class="digit-btn">4</button><button class="digit-btn">5</button
+        ><button class="digit-btn">6</button
+        ><button data-action="subtract">-</button
+        ><button data-action="memory-add">M+</button>
 
-        <button>7</button><button>8</button><button>9</button><button>X</button
-        ><button>M-</button>
+        <button class="digit-btn">1</button><button class="digit-btn">2</button
+        ><button class="digit-btn">3</button
+        ><button data-action="addition">+</button
+        ><button data-action="memory-recall">MR</button>
 
-        <button>4</button><button>5</button><button>6</button><button>-</button
-        ><button>M+</button>
-
-        <button>1</button><button>2</button><button>3</button><button>+</button
-        ><button>MR</button>
-
-        <button>+/-</button><button>0</button><button>.</button
-        ><button>=</button><button>MC</button>
+        <button data-action="clear">CE</button
+        ><button class="digit-btn">0</button
+        ><button data-action="decimal">.</button
+        ><button data-action="equals">=</button
+        ><button data-action="memory-clear">MC</button>
       </div>
     </main>
+
+    <script src="app.js" type="text/javascript"></script>
   </body>
 </html>

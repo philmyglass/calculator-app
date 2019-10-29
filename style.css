@@ -5,9 +5,9 @@ html {
   font-size: 16px;
 }
 
-.calc-title {
+header {
   text-align: center;
-  font-size: 3rem;
+  font-size: 1.8rem;
 }
 
 main {
@@ -16,6 +16,12 @@ main {
   align-items: baseline;
   width: 100vw;
   height: 100vh;
+  overflow-x: hidden;
+}
+
+button {
+  font-size: 1.5rem;
+  font-weight: 300;
 }
 
 .calc-body {
@@ -29,7 +35,9 @@ main {
 }
 
 .display-input {
-  grid-column: 2 / span 4;
+  grid-column: 1 / span 5;
   grid-row: 1 / span 2;
   font-size: 3rem;
+  text-align: right;
+  padding-right: 15px;
 }
