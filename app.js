@@ -96,6 +96,19 @@ const setupEventListeners = () => {
         }
       };
 
+      //if the current sum in the data structure is empty, push the first number input to the current sum
+      //otherwise call the arithmatic functions
+      let calcAll = () => {
+        if (calcData.curSum === 0) {
+          calcData.curSum = calcData.curNums[0];
+        } else {
+          additionFunc(calcData.curNums[calcData.curNums.length - 1]);
+          subtractFunc(calcData.curNums[calcData.curNums.length - 1]);
+          multiplyFunc(calcData.curNums[calcData.curNums.length - 1]);
+          divideFunc(calcData.curNums[calcData.curNums.length - 1]);
+        }
+      };
+
       //if math operator clicked, digit on screen parsed as float and pushed into data structure
       //math operator also pushed into the data structure as a string
       if (
@@ -108,21 +121,19 @@ const setupEventListeners = () => {
         checkOp(act); //push operator to data structure as a string
         screen.value = ""; //reset input field/screen to empty
 
-        //if the current sum in the data structure is empty, push the first number input to the current sum
-        //otherwise call the arithmatic functions
-        if (calcData.curSum === 0) {
-          calcData.curSum = calcData.curNums[0];
-        } else {
-          additionFunc(calcData.curNums[calcData.curNums.length - 1]);
-          subtractFunc(calcData.curNums[calcData.curNums.length - 1]);
-          multiplyFunc(calcData.curNums[calcData.curNums.length - 1]);
-          divideFunc(calcData.curNums[calcData.curNums.length - 1]);
-        }
+        calcAll();
         //console.log(calcData.curOp);
-        //console.log(calcData.curSum);
+        console.log(calcData.curSum);
       }
 
+      //click equals and the system will return the value in curSum in the data structure with what is currently
+      //in the input field on the calculator screen
       if (act === "equals") {
+        additionFunc(parseFloat(screen.value));
+        subtractFunc(parseFloat(screen.value));
+        multiplyFunc(parseFloat(screen.value));
+        divideFunc(parseFloat(screen.value));
+        screen.value = calcData.curSum;
       }
     }
   });
