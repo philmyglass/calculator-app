@@ -167,11 +167,35 @@ const setupEventListeners = () => {
         screen.value = calcData.curSum;
       }
 
+      //clears screen and resets to 0. Alos resets all data structures to empty.
       if (act === "clear") {
         screen.value = 0;
         calcData.curSum = 0;
         calcData.curNums = [];
         calcData.curOp = [];
+      }
+
+      //returns the running total sqaured and renders to the screen. Also stores this in the data structure.
+      if (act === "square") {
+        const square = calcData.curSum;
+        if (calcData.curSum === 0) {
+          calcData.curSum = screen.value * screen.value;
+          screen.value = calcData.curSum;
+        } else {
+          calcData.curSum = square * square;
+          screen.value = calcData.curSum;
+        }
+      }
+
+      if (act === "square-root") {
+        const root = calcData.curSum;
+        if (calcData.curSum === 0) {
+          calcData.curSum = Math.sqrt(screen.value);
+          screen.value = calcData.curSum;
+        } else {
+          calcData.curSum = Math.sqrt(root);
+          screen.value = calcData.curSum;
+        }
       }
     }
   });
