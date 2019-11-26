@@ -31,19 +31,6 @@ const setupEventListeners = () => {
         }
       }
 
-      // let numSum = () => {
-      //   if (
-      //     calcData.curNums.length > 1 &&
-      //     calcData.curOp[calcData.curOp.length - 2] === "addition"
-      //   ) {
-      //     calcData.curSum.push(
-      //       calcData.curNums[calcData.curNums.length - 2] +
-      //         calcData.curNums[calcData.curNums.length - 1]
-      //     );
-      //     screen.value = calcData.curSum[calcData.curSum.length - 1];
-      //   }
-      // };
-
       //basic arithmatic functions
       let additionFunc = num => {
         if (
@@ -187,6 +174,7 @@ const setupEventListeners = () => {
         }
       }
 
+      //square root function on the running total or number on the calculator screen
       if (act === "square-root") {
         const root = calcData.curSum;
         if (calcData.curSum === 0) {
@@ -197,12 +185,33 @@ const setupEventListeners = () => {
           screen.value = calcData.curSum;
         }
       }
+
+      //deletes the last digit on the screen when delete is clicked, unless it is the running total
+      //in which case it will not work
+      if (act === "delete") {
+        const numStr = screen.value;
+        const newNum = numStr.slice(0, numStr.length - 1);
+
+        if (numStr != calcData.curSum) {
+          screen.value = newNum;
+        }
+      }
+
+      //adds a decimal place to the number on the screen, unless there is already a decimal
+      //point there
+      if (act === "decimal") {
+        const numStr = screen.value;
+        if (!numStr.includes(".")) {
+          screen.value += e.target.textContent;
+        }
+      }
     }
   });
 };
 
 const init = () => {
   setupEventListeners();
+  document.querySelector(".display-input").setAttribute("readonly", true);
   console.log("App is running");
 };
 
