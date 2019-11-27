@@ -11,6 +11,22 @@ const setupEventListeners = () => {
   const calculator = document.querySelector(".calc-body");
   let mem = calcData.memory;
   const screen = document.querySelector(".display-input");
+  window.addEventListener("keypress", e => {
+    const press = e.charCode;
+
+    if (press > 47 && press < 58) {
+      if (
+        screen.value == 0 ||
+        screen.value == calcData.curSum ||
+        screen.value == calcData.curNums[calcData.curNums.length - 1] ||
+        screen.value == mem[mem.length - 1]
+      ) {
+        screen.value = String.fromCharCode(press);
+      } else {
+        screen.value += String.fromCharCode(press);
+      }
+    }
+  });
   calculator.addEventListener("click", e => {
     //if the event target is a button element
     if (e.target.tagName === "BUTTON") {
