@@ -9,8 +9,7 @@ let calcData = {
 //setup event listener for clicking a button in a function to be called in the init function when the app starts
 const setupEventListeners = () => {
   const calculator = document.querySelector(".calc-body");
-  const nonDigits = calculator.dataset.action;
-  const operator = document.querySelector(".operator");
+  let mem = calcData.memory;
   const screen = document.querySelector(".display-input");
   calculator.addEventListener("click", e => {
     //if the event target is a button element
@@ -23,7 +22,8 @@ const setupEventListeners = () => {
           //use non strict equality operator as the screen is a string and the data structure is a number
           screen.value == 0 ||
           screen.value == calcData.curSum ||
-          screen.value == calcData.curNums[calcData.curNums.length - 1]
+          screen.value == calcData.curNums[calcData.curNums.length - 1] ||
+          screen.value == mem[mem.length - 1]
         ) {
           screen.value = e.target.textContent;
         } else {
@@ -205,10 +205,34 @@ const setupEventListeners = () => {
           screen.value += e.target.textContent;
         }
       }
+
+      //calculator memory functions
+      if (act === "memory-add") {
+        mem.push(parseFloat(screen.value));
+      } else if (act === "memory-sub") {
+        mem.pop();
+      } else if (act === "memory-recall") {
+        if (mem.length > 0) {
+          screen.value = mem[mem.length - 1];
+        }
+      } else if (act === "memory-clear") {
+        calcData.memory = []; //had to use true name of location to make sure array was reset. If used variable it would not reference the location properly
+        console.log("click");
+        console.log(calcData.memory);
+      }
+
+      //percentage function to 2 decimal places
+      if (act === "percentage") {
+        screen.value =
+          (calcData.curNums[calcData.curNums.length - 1] *
+            parseFloat(screen.value)) /
+          100;
+      }
     }
   });
 };
 
+//initialisation function
 const init = () => {
   setupEventListeners();
   document.querySelector(".display-input").setAttribute("readonly", true);
