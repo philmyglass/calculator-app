@@ -11,6 +11,102 @@ const setupEventListeners = () => {
   const calculator = document.querySelector(".calc-body");
   let mem = calcData.memory;
   const screen = document.querySelector(".display-input");
+
+  //basic arithmatic functions
+  let additionFunc = num => {
+    if (
+      //if using multiple arithmatic operators
+      calcData.curNums.length > 0 &&
+      calcData.curOp.length > 1 &&
+      calcData.curOp[calcData.curOp.length - 2] === "addition"
+    ) {
+      calcData.curSum += num;
+    } else if (
+      //if only using a single arithmatic orperator e.g. 1 + 1
+      calcData.curNums.length > 0 &&
+      calcData.curOp.length < 2 &&
+      calcData.curOp[calcData.curOp.length - 1] === "addition"
+    ) {
+      calcData.curSum += num;
+    }
+  };
+  let subtractFunc = num => {
+    if (
+      calcData.curNums.length > 0 &&
+      calcData.curOp.length > 1 &&
+      calcData.curOp[calcData.curOp.length - 2] === "subtract"
+    ) {
+      calcData.curSum -= num;
+    } else if (
+      calcData.curNums.length > 0 &&
+      calcData.curOp.length < 2 &&
+      calcData.curOp[calcData.curOp.length - 1] === "subtract"
+    ) {
+      calcData.curSum -= num;
+    }
+  };
+  let multiplyFunc = num => {
+    if (
+      calcData.curNums.length > 0 &&
+      calcData.curOp.length > 1 &&
+      calcData.curOp[calcData.curOp.length - 2] === "multiply"
+    ) {
+      calcData.curSum *= num;
+    } else if (
+      calcData.curNums.length > 0 &&
+      calcData.curOp.length < 2 &&
+      calcData.curOp[calcData.curOp.length - 1] === "multiply"
+    ) {
+      calcData.curSum *= num;
+    }
+  };
+  let divideFunc = num => {
+    if (
+      calcData.curNums.length > 0 &&
+      calcData.curOp.length > 1 &&
+      calcData.curOp[calcData.curOp.length - 2] === "divide"
+    ) {
+      calcData.curSum /= num;
+    } else if (
+      calcData.curNums.length > 0 &&
+      calcData.curOp.length < 2 &&
+      calcData.curOp[calcData.curOp.length - 1] === "divide"
+    ) {
+      calcData.curSum /= num;
+    }
+  };
+
+  //check what operator was used and push this into the data strcuture to refer
+  //back to when second number for an equation has been input by the user
+  let checkOp = symbol => {
+    switch (symbol) {
+      case "addition":
+        calcData.curOp.push("addition");
+        break;
+      case "subtract":
+        calcData.curOp.push("subtract");
+        break;
+      case "multiply":
+        calcData.curOp.push("multiply");
+        break;
+      case "divide":
+        calcData.curOp.push("divide");
+        break;
+    }
+  };
+
+  //if the current sum in the data structure is empty, push the first number input to the current sum
+  //otherwise call the arithmatic functions
+  let calcAll = () => {
+    if (calcData.curSum === 0) {
+      calcData.curSum = calcData.curNums[0];
+    } else {
+      additionFunc(calcData.curNums[calcData.curNums.length - 1]);
+      subtractFunc(calcData.curNums[calcData.curNums.length - 1]);
+      multiplyFunc(calcData.curNums[calcData.curNums.length - 1]);
+      divideFunc(calcData.curNums[calcData.curNums.length - 1]);
+    }
+  };
   window.addEventListener("keypress", e => {
     const press = e.charCode;
 
@@ -26,6 +122,49 @@ const setupEventListeners = () => {
         screen.value += String.fromCharCode(press);
       }
     }
+
+    if (press === 42 || press === 43 || press === 45 || press === 47) {
+      calcData.curNums.push(parseFloat(screen.value));
+      if (press === 42) {
+        checkOp("multiply");
+        calcAll();
+        screen.value = calcData.curSum;
+      } else if (press === 43) {
+        checkOp("addition");
+        calcAll();
+        screen.value = calcData.curSum;
+      } else if (press === 45) {
+        checkOp("subtract");
+        calcAll();
+        screen.value = calcData.curSum;
+      } else if (press === 47) {
+        checkOp("divide");
+        calcAll();
+        screen.value = calcData.curSum;
+      }
+    }
+
+    if (press === 13) {
+      console.log("enter pressed");
+      if (screen.value != calcData.curSum) {
+        additionFunc(parseFloat(screen.value));
+        subtractFunc(parseFloat(screen.value));
+        multiplyFunc(parseFloat(screen.value));
+        divideFunc(parseFloat(screen.value));
+        screen.value = calcData.curSum;
+      }
+    }
+
+    //not working for some reason?!
+    // if (press == 8) {
+    //   console.log("delete pressed");
+    //   const numStr = screen.value;
+    //   const newNum = numStr.slice(0, numStr.length - 1);
+
+    //   if (numStr != calcData.curSum) {
+    //     screen.value = newNum;
+    //   }
+    // }
   });
   calculator.addEventListener("click", e => {
     //if the event target is a button element
@@ -47,102 +186,6 @@ const setupEventListeners = () => {
         }
       }
 
-      //basic arithmatic functions
-      let additionFunc = num => {
-        if (
-          //if using multiple arithmatic operators
-          calcData.curNums.length > 0 &&
-          calcData.curOp.length > 1 &&
-          calcData.curOp[calcData.curOp.length - 2] === "addition"
-        ) {
-          calcData.curSum += num;
-        } else if (
-          //if only using a single arithmatic orperator e.g. 1 + 1
-          calcData.curNums.length > 0 &&
-          calcData.curOp.length < 2 &&
-          calcData.curOp[calcData.curOp.length - 1] === "addition"
-        ) {
-          calcData.curSum += num;
-        }
-      };
-      let subtractFunc = num => {
-        if (
-          calcData.curNums.length > 0 &&
-          calcData.curOp.length > 1 &&
-          calcData.curOp[calcData.curOp.length - 2] === "subtract"
-        ) {
-          calcData.curSum -= num;
-        } else if (
-          calcData.curNums.length > 0 &&
-          calcData.curOp.length < 2 &&
-          calcData.curOp[calcData.curOp.length - 1] === "subtract"
-        ) {
-          calcData.curSum -= num;
-        }
-      };
-      let multiplyFunc = num => {
-        if (
-          calcData.curNums.length > 0 &&
-          calcData.curOp.length > 1 &&
-          calcData.curOp[calcData.curOp.length - 2] === "multiply"
-        ) {
-          calcData.curSum *= num;
-        } else if (
-          calcData.curNums.length > 0 &&
-          calcData.curOp.length < 2 &&
-          calcData.curOp[calcData.curOp.length - 1] === "multiply"
-        ) {
-          calcData.curSum *= num;
-        }
-      };
-      let divideFunc = num => {
-        if (
-          calcData.curNums.length > 0 &&
-          calcData.curOp.length > 1 &&
-          calcData.curOp[calcData.curOp.length - 2] === "divide"
-        ) {
-          calcData.curSum /= num;
-        } else if (
-          calcData.curNums.length > 0 &&
-          calcData.curOp.length < 2 &&
-          calcData.curOp[calcData.curOp.length - 1] === "divide"
-        ) {
-          calcData.curSum /= num;
-        }
-      };
-
-      //check what operator was used and push this into the data strcuture to refer
-      //back to when second number for an equation has been input by the user
-      let checkOp = symbol => {
-        switch (symbol) {
-          case "addition":
-            calcData.curOp.push("addition");
-            break;
-          case "subtract":
-            calcData.curOp.push("subtract");
-            break;
-          case "multiply":
-            calcData.curOp.push("multiply");
-            break;
-          case "divide":
-            calcData.curOp.push("divide");
-            break;
-        }
-      };
-
-      //if the current sum in the data structure is empty, push the first number input to the current sum
-      //otherwise call the arithmatic functions
-      let calcAll = () => {
-        if (calcData.curSum === 0) {
-          calcData.curSum = calcData.curNums[0];
-        } else {
-          additionFunc(calcData.curNums[calcData.curNums.length - 1]);
-          subtractFunc(calcData.curNums[calcData.curNums.length - 1]);
-          multiplyFunc(calcData.curNums[calcData.curNums.length - 1]);
-          divideFunc(calcData.curNums[calcData.curNums.length - 1]);
-        }
-      };
-
       //if math operator clicked, digit on screen parsed as float and pushed into data structure
       //math operator also pushed into the data structure as a string
       if (
@@ -163,11 +206,15 @@ const setupEventListeners = () => {
       //click equals and the system will return the value in curSum in the data structure with what is currently
       //in the input field on the calculator screen
       if (act === "equals") {
-        additionFunc(parseFloat(screen.value));
-        subtractFunc(parseFloat(screen.value));
-        multiplyFunc(parseFloat(screen.value));
-        divideFunc(parseFloat(screen.value));
-        screen.value = calcData.curSum;
+        if (screen.value != calcData.curSum) {
+          additionFunc(parseFloat(screen.value));
+          subtractFunc(parseFloat(screen.value));
+          multiplyFunc(parseFloat(screen.value));
+          divideFunc(parseFloat(screen.value));
+          screen.value = calcData.curSum;
+        } else {
+          screen.value = calcData.curSum;
+        }
       }
 
       //clears screen and resets to 0. Alos resets all data structures to empty.
@@ -239,10 +286,12 @@ const setupEventListeners = () => {
 
       //percentage function to 2 decimal places
       if (act === "percentage") {
-        screen.value =
-          (calcData.curNums[calcData.curNums.length - 1] *
-            parseFloat(screen.value)) /
-          100;
+        if (calcData.curNums.length > 0) {
+          screen.value =
+            (calcData.curNums[calcData.curNums.length - 1] *
+              parseFloat(screen.value)) /
+            100;
+        }
       }
     }
   });
